@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+    <title>TODO</title>
+    <meta charset="utf-8">
+	<link rel="stylesheet" href="{% static 'todo/styles.css' %}" />
+  
+  </head>
+  
+  <body>
+    
+	<div id="app">
+
+		<div id="banner" class="whitebg">
+
+			<div class="block menu">TODO APP</div>
+
+		</div>
+
+		<div id="page" class="middle">
+		
+			<h1>Welcome</h1>
+		
+			<div class="description">Manage your todo items.</div>
+
+			<form action="{% url 'add' %}" method="POST" role="form">
+				{% csrf_token %}
+				  {{ form.text }}
+				  <button type="submit" class="button rounded5">ADD</button>
+				
+			</form>
+
+			{% for todo in todo_list %}
+				{% if todo.complete %}
+				<div class="completed todo rounded5">{{ todo.text }}</div>
+				{% else %}
+				<a href="{% url 'complete' todo.id %}">
+					<div class="todo whitebg rounded5">{{ todo.text }}</div>
+				</a>
+				{% endif %}
+			{% endfor %}
+
+			<br><a href="{% url 'deletecomplete' %}">Delete Completed</a>
+			<br><a href="{% url 'deleteall' %}" style="color:#660000">Delete All</a>
+
+		</div>
+
+	</body>
+
+</html>
